@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3800;
+const PORT = process.env.PORT || 1800;
 
 //app.use(express.json())
 app.use(express.urlencoded({extended: false}));
@@ -29,8 +29,7 @@ app.get('/envelopes', (req, res, next)=>{
     res.send(data)
 })
 
-//get specific envelope
-
+//get specific envelope by date
 app.get('/envelope/date/:date', (req, res, next)=>{
     for(let item of data){
         let newDate = item.date.replace(/[/]/g, '')
@@ -41,6 +40,7 @@ app.get('/envelope/date/:date', (req, res, next)=>{
     }
 })
 
+//get envelobe by location
 app.get('/envelope/location/:location', (req, res, next)=>{
 
     for(let item of data){
@@ -50,6 +50,7 @@ app.get('/envelope/location/:location', (req, res, next)=>{
     }
 })
 
+//get envelope by itemPurchased
 app.get('/envelope/itemPurchased/:itemPurchased', (req, res, next)=>{
     for(let item of data){
         if(item.itemPurchased == req.params.itemPurchased){
@@ -58,6 +59,7 @@ app.get('/envelope/itemPurchased/:itemPurchased', (req, res, next)=>{
     }
 })
 
+//get envelope by price
 app.get('/envelope/price/:price', (req, res, next)=>{
     for(let item of data){
         if(item.price == req.params.price){
@@ -76,6 +78,7 @@ app.post('/', (req, res, next)=>{
 //update envelope
 app.put('/envelope/update/:detailThing/:detail/:newAmount', (req, res, next)=>{
     for(let item of data){
+            console.log(item[req.params.detailThing])
         if(item[req.params.detailThing] == req.params.detail){
             item[req.params.detailThing] = req.params.newAmount;
             res.send(item)
@@ -84,15 +87,53 @@ app.put('/envelope/update/:detailThing/:detail/:newAmount', (req, res, next)=>{
    
 })
 
-//detelets envelope
-app.delete('/envelope/delete/:detailThing/:detail', (req, res, next)=>{
-    for(let item in data){
-        if(item[req.params.detailThing] == req.params.detail){
-            console.log(data.indexOf(item))
-            data.splice(data.indexOf(item), 1);
-            res.send(data);
+//deletes envelope by date
+app.delete('/envelope/delete/date/:detail', (req, res, next)=>{
+    let index = data.findIndex(item =>{
+        let newIndex = data.indexOf(item);
+        let newDate = data[newIndex].date.replace(/[/]/g, '')
+        if(newDate == req.params.detail){
+            return item
         }
-    }
+    })
+    data.splice(index, 1)
+    res.send(data);
+})
+
+//deletes envelope by location
+app.delete('/envelope/delete/location/:detail', (req, res, next)=>{
+    let index = data.findIndex(item =>{
+        let newIndex = data.indexOf(item);
+        if(data[newIndex].location == req.params.detail){
+            return item
+        }
+    })
+    data.splice(index, 1)
+    res.send(data);
+})
+
+//delete envelope by itemPurchased
+app.delete('/envelope/delete/itemPurchased/:detail', (req, res, next)=>{
+    let index = data.findIndex(item =>{
+        let newIndex = data.indexOf(item);
+        if(data[newIndex].itemPurchased == req.params.detail){
+            return item
+        }
+    })
+    data.splice(index, 1)
+    res.send(data);
+})
+
+//delete envelope by price
+app.delete('/envelope/delete/price/:detail', (req, res, next)=>{
+    let index = data.findIndex(item =>{
+        let newIndex = data.indexOf(item);
+        if(data[newIndex].price == req.params.detail){
+            return item
+        }
+    })
+    data.splice(index, 1)
+    res.send(data);
 })
 
 
