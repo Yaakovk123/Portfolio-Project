@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 1800;
+const PORT = process.env.PORT || 9000;
 
 //app.use(express.json())
 app.use(express.urlencoded({extended: false}));
@@ -10,13 +10,25 @@ let data = [
         date: '4/13/2015',
         location: 'Market',
         itemPurchased: 'Apples',
-        price: '$28'
+        price: '28'
     },
     {
         date: '3/12/2015',
         location: 'Target',
+        itemPurchased: 'tissues',
+        price: '90'
+    },
+    {
+        date: '12/18/2004',
+        location: 'Hospital', 
         itemPurchased: 'clothes',
-        price: '$90'
+        price: '100'
+    },
+    {
+        date: '11/24/2020', 
+        location: 'Ross', 
+        itemPurchased: 'shoes',
+        price: '300'
     }
 ];
 
@@ -136,5 +148,24 @@ app.delete('/envelope/delete/price/:detail', (req, res, next)=>{
     res.send(data);
 })
 
+//transfering bugdet from one envelope to another
+app.post('/envelope/post/:from/:to', (req, res, next)=>{
+    let fromIndex = data.findIndex(elem =>{
+        let indexOfElem = data.indexOf(elem)
+        if(req.params.from == data[indexOfElem].location){
+            return elem
+        }
+    })
+
+    let toIndex = data.findIndex(elem =>{
+            let indexOfElem = data.indexOf(elem)
+            if(req.params.to == data[indexOfElem].location){
+                return elem
+            }
+    })
+
+    let bodyPrice = Number(req.body.price)
+    console.log(bodyPrice)
+})
 
 app.listen(PORT);
