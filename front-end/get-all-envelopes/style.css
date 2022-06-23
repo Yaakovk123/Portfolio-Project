@@ -1,0 +1,24 @@
+#container{
+    position:relative;
+    height:800px;
+    width:100%;
+    background-color: transparent;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+}
+body{
+    background-color:gray;
+    height:100%
+}
+
+#total{
+    position:relative;
+    height:300px;
+    width:600px;
+    background-color:transparent;
+    bottom:300px;
+    left:25%;
+    text-align:center;
+    font-size: 40px;
+}

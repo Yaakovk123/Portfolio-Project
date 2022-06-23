@@ -2,12 +2,24 @@ body{
     background-color: black;
 }
 
-#button{
-    width:100px;
-    height:100px;
-    background-color:yellow;
-}
-
 .allButtons{
     background-color: gray;
+    width:500px;
+    height:200px;
+    font-size:70px;
+    color:green;
+    background-color:transparent;
+}
+
+#buttons{
+    position:relative;
+    width:500px;
+    height:500px;
+    background-color:transparent;
+    display:flex;
+    flex-direction:column;
+    justify-content: space-evenly;
+    align-items: center;
+    left:28%;
+    top:100px;
 }
